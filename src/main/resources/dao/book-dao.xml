@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <bean class="com.alexdarin.bookstore.dao.BookDao" id="bookDao" autowire="byName">
+        <property name="getAllBooksQuery">
+            <value>
+                <![CDATA[
+                    SELECT * FROM BOOKS
+                ]]>
+            </value>
+        </property>
+        <property name="getBookAuthorsQuery">
+            <value>
+                <![CDATA[
+                    SELECT
+                        a.id,
+                        a.first_name,
+                        a.last_name,
+                        a.amount_of_books
+                    FROM books_authors ba
+                    INNER JOIN authors a
+                    ON a.id = ba.author_id
+                    WHERE ba.book_id = :book_id
+                ]]>
+            </value>
+        </property>
+        <property name="getNextIdQuery">
+            <value>
+                <![CDATA[
+                    SELECT book_id_seq.NEXTVAL
+                    AS new_book_id
+                ]]>
+            </value>
+        </property>
+        <property name="createBookQuery">
+            <value>
+                <![CDATA[
+                    INSERT INTO BOOKS
+                    VALUES (
+                        :id,
+                        :title,
+                        :isbn
+                    )
+                ]]>
+            </value>
+        </property>
+        <property name="deleteBookQuery">
+            <value>
+                <![CDATA[
+                    DELETE FROM BOOKS
+                    WHERE id = :book_id
+                ]]>
+            </value>
+        </property>
+        <property name="getBookById">
+            <value>
+                <![CDATA[
+                    SELECT * FROM books
+                    WHERE id =
+                    :book_id
+                ]]>
+            </value>
+        </property>
+        <property name="updateBookById">
+            <value>
+                <![CDATA[
+                    UPDATE BOOKS
+                    SET title =
+                    :title,
+                    isbn =
+                    :isbn
+                    WHERE id =
+                    :id
+                ]]>
+            </value>
+        </property>
+        <property name="updateAuthorsBooks">
+            <value>
+                <![CDATA[
+                    UPDATE AUTHORS_BOOKS
+                    SET book_id =
+                    :book_id,
+                    author_id =
+                    :author_id
+                ]]>
+            </value>
+        </property>
+        <property name="deleteAuthorsBooksLine">
+            <value>
+                <![CDATA[
+                    DELETE FROM AUTHORS_BOOKS
+                     WHERE book_id =
+                    :book_id AND
+                    author_id =
+                    :author_id
+                ]]>
+            </value>
+        </property>
+    </bean>
+</beans>

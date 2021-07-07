@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <bean class="com.alexdarin.bookstore.dao.AuthorDao" id="authorDAO" autowire="byName">
+        <property name="getAllAuthorsQuery">
+            <value>
+                <![CDATA[
+                    SELECT * FROM authors
+                ]]>
+            </value>
+        </property>
+        <property name="getAuthorsBooksQuery">
+            <value>
+                <![CDATA[
+                    select count(*)
+                    from books_authors ba
+                    inner join books b
+                    on ba.book_id = b.id where ba.author_id =
+                    :author_id
+                ]]>
+            </value>
+        </property>
+        <property name="getNextIdQuery">
+            <value>
+                <![CDATA[
+                    SELECT author_id_seq.NEXTVAL
+                    as new_author_id
+                ]]>
+            </value>
+        </property>
+        <property name="createAuthorQuery">
+            <value>
+                <![CDATA[
+                    INSERT INTO AUTHORS
+                    VALUES (
+                    :author_id,
+                    :first_name,
+                    :last_name,
+                    :amount_of_books
+                    )
+                ]]>
+            </value>
+        </property>
+        <property name="deleteAuthorQuery">
+            <value>
+                <![CDATA[
+                    DELETE FROM AUTHORS
+                    WHERE id =
+                    :author_id
+                ]]>
+            </value>
+        </property>
+        <property name="getAuthorById">
+            <value>
+                <![CDATA[
+                    SELECT * FROM authors
+                    WHERE id =
+                    :author_id
+                ]]>
+            </value>
+        </property>
+        <property name="updateAuthorById">
+            <value>
+                <![CDATA[
+                    UPDATE AUTHORS
+                    SET first_name =
+                    :first_name,
+                    last_name =
+                    :last_name,
+                    amount_of_books =
+                    :amount_of_books
+                    WHERE id =
+                    :author_id
+                ]]>
+            </value>
+        </property>
+    </bean>
+</beans>
